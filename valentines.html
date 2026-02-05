@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Will you be my Valentine?</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #dd5a93, #fce394);
+      font-family: 'Mochiy Pop One', sans-serif;
+    }
+
+    .card {
+      background: white;
+      padding: 30px 100px 36px;
+      border-radius: 34px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      text-align: center;
+      width: min(420px, 92vw);
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: 32px;
+    }
+
+    .gif {
+      width: 160px;
+      margin: 12px auto 18px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+
+    .buttons {
+      position: relative;
+      height: 90px;
+      margin-top: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    #yes {
+      background: #f87676;
+      color: white;
+      left: 50%;
+      transform: translateX(-120%);
+      transition: transform 0.2s;
+      font-family: 'DynaPuff', cursive;
+    }
+
+    #yes:hover {
+        transform: translateX(-120%) scale(1.1);
+    }
+
+    #no {
+      background: #eee;
+      color: #333;
+      transition:
+        left 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        top 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      font-family: 'DynaPuff', cursive;
+    }
+
+    .shaking {
+        animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+        0% { transform: rotate(0deg); }
+        25% { transform: rotate(5deg); }
+        50% { transform: rotate(0deg); }
+        75% { transform: rotate(-5deg); }
+        100% { transform: rotate(0deg); }
+    }
+
+    .popping {
+        animation: pop-animation 0.3s;
+    }
+    @keyframes pop-animation {
+        0% { transform: translateX(-120%) scale(1); }
+        50% { transform: translateX(-120%) scale(1.2); }
+        100% { transform: translateX(-120%) scale(1); }
+    }
+
+    .result {
+      display: none;
+      font-size: 22px;
+      margin-top: 18px;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      width: min(360px, 90vw);
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      animation: pop 0.25s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.85); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-img {
+      width: 160px;
+      margin-bottom: 14px;
+    }
+
+    .modal-text {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .modal-buttons button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+
+    #closeModal { background: #eee; }
+    #modalYes { background: #f87676; color: white; font-family: 'Mochiy Pop One', sans-serif; }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 9999;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      top: -50px;
+      opacity: 0;
+      animation: fall ease-out forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        opacity: 0.8;
+        transform: translateY(0) translateX(var(--initial-x)) rotateZ(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(110vh) translateX(var(--final-x)) rotateZ(var(--rotate-z));
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>HI EUNICE GWEE 🧸, WILL YOU BE MY VALENTINESSS?</h1>
+
+    <img
+      src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHBlMXkzMTkyZDVqZXl2bHkyNzkxbW56cGNpc256bDFuMjh2dDB0ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Qt7CWFE9Rd1v1cKvIY/giphy.gif"
+      alt="cute gif"
+      class="gif"
+    />
+
+    <div class="buttons">
+      <button id="yes">YES</button>
+      <button id="no">no.....</button>
+    </div>
+
+    <div class="result" id="result">
+      YAYYYYYY IT’S A DATEEE!!!
+    </div>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <img src="goldfish.jpg" class="modal-img" alt="sad goldfish" />
+      <p class="modal-text">
+        no goldfish funeral please....
+      </p>
+      <div class="modal-buttons">
+        <button id="closeModal">I’m sorry 😭</button>
+        <button id="modalYes">OKAY YES</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const result = document.getElementById("result");
+    const modal = document.getElementById("modal");
+    const closeModal = document.getElementById("closeModal");
+    const modalYes = document.getElementById("modalYes");
+    const confettiContainer = document.getElementById("confetti");
+
+    let noButtonHoverCount = 0;
+    const noButtonHardAttempts = 5;
+
+    function moveNoButton() {
+      noButtonHoverCount++;
+      const container = document.querySelector(".buttons");
+      const maxX = container.clientWidth - noBtn.offsetWidth;
+      const maxY = container.clientHeight - noBtn.offsetHeight;
+      
+      let x, y;
+
+      if (noButtonHoverCount <= noButtonHardAttempts) {
+        noBtn.style.transition = 'none';
+        x = Math.random() * maxX;
+        y = Math.random() * maxY;
+      } else {
+        noBtn.style.transition = 'left 0.45s cubic-bezier(0.22, 1, 0.36, 1), top 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
+        const smallRangeX = maxX * 0.3;
+        const smallRangeY = maxY * 0.3;
+        x = (maxX - smallRangeX) / 2 + Math.random() * smallRangeX;
+        y = (maxY - smallRangeY) / 2 + Math.random() * smallRangeY;
+      }
+
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+      noBtn.style.transform = 'none';
+
+      noBtn.classList.add("shaking");
+      setTimeout(() => noBtn.classList.remove("shaking"), 300);
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("click", () => {
+      const modalImg = document.querySelector("#modal .modal-img");
+      const modalText = document.querySelector("#modal .modal-text");
+
+      modalImg.src = "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHlrbm9ibDI4aWhzdHBldXhpOXB5c3l4djF0NGk4ODEwMDNoZzhxcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/key9OQxTnQAh257OT8/giphy.gif";
+      modalImg.alt = "sad GIF"; // Keeping alt text generic
+      modalText.textContent = "no goldfish funeral please...."; // Reverted text
+
+      modal.style.display = "flex";
+    });
+
+    yesBtn.addEventListener("click", () => {
+      yesBtn.classList.add("popping");
+      setTimeout(() => {
+        document.querySelector(".buttons").style.display = "none";
+        result.style.display = "block";
+        launchConfetti();
+      }, 300)
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    modalYes.addEventListener("click", () => {
+      modal.style.display = "none";
+      document.querySelector(".buttons").style.display = "none";
+      result.style.display = "block";
+      launchConfetti();
+    });
+
+    function launchConfetti() {
+      const confettiCount = 150;
+      for (let i = 0; i < confettiCount; i++) {
+        const piece = document.createElement("div");
+        piece.classList.add("confetti-piece");
+
+        const initialX = (Math.random() - 0.5) * 50 + 'px';
+        const finalX = (Math.random() - 0.5) * 400 + 'px';
+        const rotateZ = (Math.random() - 0.5) * 1080 + 'deg';
+        const fallDuration = 3 + Math.random() * 2 + 's';
+        const fallDelay = Math.random() * 1.5 + 's';
+
+        piece.style.setProperty('--initial-x', initialX);
+        piece.style.setProperty('--final-x', finalX);
+        piece.style.setProperty('--rotate-z', rotateZ);
+        
+        const colors = ["#ff4d7d", "#ffd166", "#06d6a0", "#118ab2", "#ef476f"];
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.width = 8 + Math.random() * 8 + 'px';
+        piece.style.height = 10 + Math.random() * 10 + 'px';
+        if (Math.random() > 0.5) {
+          piece.style.borderRadius = '50%';
+        }
+        
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.animationDuration = fallDuration;
+        piece.style.animationDelay = fallDelay;
+
+        confettiContainer.appendChild(piece);
+        setTimeout(() => piece.remove(), parseFloat(fallDuration) * 1000 + parseFloat(fallDelay) * 1000);
+      }
+    }
+  </script>
+</body>
+</html>
