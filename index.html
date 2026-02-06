@@ -44,7 +44,7 @@
     }
 
     .gif {
-      width: 160px;
+      width: 300px;
       margin: 12px auto 18px;
       animation: float 3s ease-in-out infinite;
     }
@@ -200,7 +200,7 @@
 
 <body>
   <div class="card">
-    <h1>HAI EUNICE🧸, WILL YOU BE MY VALENTINESSS?</h1>
+    <h1>HAI EUNICE GWEE🧸, WILL YOU BE MY VALENTINESSS?</h1>
 
     <img
       src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHBlMXkzMTkyZDVqZXl2bHkyNzkxbW56cGNpc256bDFuMjh2dDB0ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Qt7CWFE9Rd1v1cKvIY/giphy.gif"
@@ -213,20 +213,27 @@
       <button id="no">no.....</button>
     </div>
 
-    <div class="result" id="result">
-      YAYYYYYY IT’S A DATEEE!!!
     </div>
+
+  <div class="card" id="celebrationCard" style="display: none;">
+    <h1>YIPPIE ITS DATEEE!!!</h1>
+    <img
+      src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExamI3ZzZ1em5maXkwem85czJ3emVxamQ3MHB2aHU0NTgxcmFyeWwxbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hroUEeSWLZiYNctKaj/giphy.gif"
+      alt="celebration gif"
+      class="gif"
+    />
+    <p>CANT WAIT TO SEE UU</p>
   </div>
 
   <div id="modal" class="modal">
     <div class="modal-content">
       <img src="goldfish.jpg" class="modal-img" alt="sad goldfish" />
       <p class="modal-text">
-        no goldfish funeral please....
+        please dont hold goldfish funeral....
       </p>
       <div class="modal-buttons">
         <button id="closeModal">I’m sorry 😭</button>
-        <button id="modalYes">OKAY YES</button>
+        <button id="modalYes">okay fine YESS</button>
       </div>
     </div>
   </div>
@@ -236,11 +243,12 @@
   <script>
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
-    const result = document.getElementById("result");
     const modal = document.getElementById("modal");
     const closeModal = document.getElementById("closeModal");
     const modalYes = document.getElementById("modalYes");
     const confettiContainer = document.getElementById("confetti");
+    const mainCard = document.querySelector(".card"); // Reference to the main card
+    const celebrationCard = document.getElementById("celebrationCard");
 
     let noButtonHoverCount = 0;
     const noButtonHardAttempts = 5;
@@ -288,8 +296,8 @@
     yesBtn.addEventListener("click", () => {
       yesBtn.classList.add("popping");
       setTimeout(() => {
-        document.querySelector(".buttons").style.display = "none";
-        result.style.display = "block";
+        mainCard.style.display = "none";
+        celebrationCard.style.display = "block";
         launchConfetti();
       }, 300)
     });
@@ -300,8 +308,8 @@
 
     modalYes.addEventListener("click", () => {
       modal.style.display = "none";
-      document.querySelector(".buttons").style.display = "none";
-      result.style.display = "block";
+      mainCard.style.display = "none";
+      celebrationCard.style.display = "block";
       launchConfetti();
     });
 
